@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lantern's Edge — a stealth game</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #14101f;
+    color: #f2e9d8;
+    font-family: Georgia, 'Times New Roman', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+  }
+  header {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 20px 6px;
+  }
+  header h1 { font-size: 26px; letter-spacing: 1px; color: #f2c94c; white-space: nowrap; }
+  header .level { font-size: 15px; color: #b9a8e8; font-style: italic; white-space: nowrap; }
+  header .spacer { flex: 1; }
+  .stat {
+    background: #241b3d;
+    border: 1px solid #4a3670;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .stat b { color: #f2c94c; }
+  #alertBox { display: flex; align-items: center; gap: 8px; }
+  #alertBar {
+    width: 140px; height: 12px;
+    background: #171226;
+    border: 1px solid #4a3670;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  #alertFill {
+    display: block;
+    height: 100%; width: 0%;
+    background: #58d68d;
+    transition: width 0.12s linear;
+  }
+  #alertFill.warm { background: #f2c94c; }
+  #alertFill.alarm { background: #ff5a46; }
+  #alertLabel { font-size: 13px; letter-spacing: 1px; color: #b9a8e8; width: 86px; }
+  button {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    background: #3a2a5e;
+    color: #ffe9b8;
+    border: 1px solid #6b4fa3;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  button:hover { background: #4a3670; }
+  canvas {
+    display: block;
+    border: 2px solid #4a3670;
+    border-radius: 6px;
+    background: #0d0a18;
+  }
+  #message {
+    width: 1000px;
+    text-align: center;
+    font-size: 16px;
+    font-style: italic;
+    color: #b9a8e8;
+    padding: 8px 20px 4px;
+    min-height: 30px;
+  }
+  footer {
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 2px 20px 8px;
+    font-size: 13px;
+    color: #8f7fb8;
+  }
+  footer .dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid #6b4fa3; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+  footer .dot.done { background: #58d68d; color: #0d2b1a; border-color: #58d68d; }
+  footer .dot.now { background: #f2c94c; color: #241b3d; border-color: #f2c94c; }
+  #overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 9, 24, 0.82);
+    z-index: 10;
+  }
+  #overlay.show { display: flex; }
+  #overlay .card {
+    background: #241b3d;
+    border: 1px solid #6b4fa3;
+    border-radius: 14px;
+    padding: 30px 44px;
+    text-align: center;
+    max-width: 560px;
+  }
+  #overlay h2 { font-size: 32px; color: #f2c94c; margin-bottom: 12px; }
+  #overlay p { font-size: 17px; line-height: 1.55; margin-bottom: 10px; }
+  #overlay .big { font-size: 22px; color: #ffe9b8; }
+  #overlay button { font-size: 18px; padding: 10px 26px; margin-top: 10px; }
+  #status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>&#128330; Lantern's Edge</h1>
+    <span class="level" id="levelName">Level 1 · Courtyard of Lanterns</span>
+    <span class="spacer"></span>
+    <span class="stat" id="alertBox"><span id="alertLabel">Unseen</span><span id="alertBar"><span id="alertFill"></span></span></span>
+    <span class="stat">&#9201; <b id="timer">0:00</b></span>
+    <span class="stat">Score <b id="score">0</b></span>
+    <button id="soundBtn" type="button">Sound: on</button>
+    <button id="restartBtn" type="button">Restart</button>
+  </header>
+  <canvas id="game" width="960" height="640" aria-label="Lantern's Edge: a top-down stealth game. Move with WASD or arrow keys, sneak with Shift, and reach the green exit unseen."></canvas>
+  <div id="message">Reach the green exit door — unseen if you can.</div>
+  <footer id="levelDots"></footer>
+  <div id="overlay"><div class="card" id="overlayCard"></div></div>
+  <p id="status" role="status" aria-live="polite"></p>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
